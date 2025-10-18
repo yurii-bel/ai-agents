@@ -6,8 +6,8 @@ from pydantic_ai.models.google import GoogleModel
 from typing import List
 
 from app.config import settings
-from app.schemas import WeatherResult, SoundResult, ImageResult
-from app.services import weather_service, sound_service, image_service
+from app.schemas import MusicResult, WeatherResult, SoundResult, ImageResult
+from app.services import music_service, weather_service, sound_service, image_service
 
 @dataclass
 class AgentDeps:
@@ -24,23 +24,16 @@ async def get_weather(ctx: RunContext[AgentDeps], city: str) -> WeatherResult:
     """Fetch real weather data for a specified city."""
     return await weather_service.fetch_weather(city, ctx.deps.client, ctx.deps.settings.openweather_api_key)
 
-@scene_agent.tool
-async def find_relevant_sound(ctx: RunContext[AgentDeps], search_query: str) -> List[SoundResult]:
-    """Finds a list of sounds related to a descriptive query (e.g., 'heavy rain', 'city ambience')."""
-    return await sound_service.search_sounds(search_query, ctx.deps.client, ctx.deps.settings.freesound_api_key)
+
 
 @scene_agent.tool
-async def generate_weather_music(ctx: RunContext[AgentDeps], music_prompt: str) -> dict:
-    """Generates AI music based on a descriptive prompt that matches the weather and location atmosphere.
-    
-    Args:
-        music_prompt: A detailed description of the music (e.g., 'A 90-second chill lo-fi track with rain sounds and soft piano')
-    
-    Returns:
-        A dictionary containing the generated music details including the audio file URL.
-    """
-    return await sound_service.generate_loudly_music(music_prompt, ctx.deps.client, ctx.deps.settings.loudly_api_key)
-
+async def generate_weather_music(ctx: RunContext[AgentDeps], music_prompt: str) -> MusicResult:
+    """Generates AI music based on a descriptive prompt that matches the weather and location atmosphere."""
+    return await music_service.generate_music(
+        music_prompt,
+        ctx.deps.client,
+        ctx.deps.settings.loudly_api_key,
+    )
 
 @scene_agent.tool
 async def find_relevant_image(ctx: RunContext[AgentDeps], search_query: str) -> List[ImageResult]:
@@ -91,18 +84,12 @@ def scene_instructions(_: RunContext[AgentDeps]):
        
     3. Call the `generate_weather_music` tool with your crafted prompt.
     
-    4. OPTIONALLY, also create an ambient sound query for natural environmental sounds:
-       - For added immersion, you can search for complementary field recordings
-       - Use the guidelines: urban ambience, nature sounds, ocean waves, etc.
-    
-    5. Call the `find_relevant_sound` tool if you want to add environmental sounds.
-    
-    6. Create an image search query: "[city] [weather condition] [atmosphere]" 
+    4. Create an image search query: "[city] [weather condition] [atmosphere]" 
        Examples: "Tokyo rainy street night", "Paris sunny cafe", "London foggy morning"
     
-    7. Call the `find_relevant_image` tool.
+    5. Call the `find_relevant_image` tool.
     
-    8. Return ALL results: weather data, generated music, optional ambient sounds, and images.
+    6. Return ALL results: weather data, generated music and images.
     
     Remember: You're creating a complete chill atmosphere perfect for relaxation, work, or study that captures both the weather and the location's unique character.
     """

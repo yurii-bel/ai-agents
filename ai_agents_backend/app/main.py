@@ -42,7 +42,6 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     frontend_url,
-    # "https://your-app.vercel.app",
 ]
 app.add_middleware(
     CORSMiddleware,
