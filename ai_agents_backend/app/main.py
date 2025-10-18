@@ -42,7 +42,8 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     frontend_url,
-    "https://ai-agents-ten-azure.vercel.app"
+    "https://ai-agents-ten-azure.vercel.app",
+    "https://ai-agents-ten-azure.vercel.app/scene"
 ]
 app.add_middleware(
     CORSMiddleware,
