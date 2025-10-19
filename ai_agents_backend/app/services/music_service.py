@@ -54,11 +54,28 @@ FALLBACK_MUSIC = {
     ]
 }
 
+
+async def _get_weather_from_endpoint(client: AsyncClient, city: str) -> str:
+    try:
+        resp = await client.post(
+            os.getenv("BACKEND_WEATHER_URL"),
+            json={"city": city},
+            timeout=20.0
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        
+        
+        return data.get("description", "default")
+    except Exception:
+        return "default" 
+
 def _get_fallback_music(prompt: str) -> MusicResult:
     """
     Returns a fallback music track based on the prompt.
-    Uses your hosted music files.
+    Uses hosted music files.
     """
+    
     prompt_lower = prompt.lower()
     
     # Determine weather type from prompt
@@ -128,12 +145,9 @@ async def generate_music(prompt: str, client: AsyncClient, api_key: str) -> Musi
 
     except HTTPStatusError as e:
         # If rate limit exceeded (429) or other API errors, use fallback
-        if e.response.status_code == 429:
-            print(f"⚠️  Loudly API rate limit exceeded. Using fallback music for prompt: {prompt}")
-            return _get_fallback_music(prompt)
-        elif e.response.status_code >= 500:
-            print(f"⚠️  Loudly API server error. Using fallback music for prompt: {prompt}")
-            return _get_fallback_music(prompt)
+        if e.response.status_code in (429, 500):
+            weather_category = await _get_weather_from_endpoint(client, prompt)
+            return _get_fallback_music(weather_category)
         else:
             raise HTTPException(
                 status_code=e.response.status_code,
