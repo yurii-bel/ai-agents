@@ -62,18 +62,19 @@ def _get_fallback_music(prompt: str) -> MusicResult:
     prompt_lower = prompt.lower()
     
     # Determine weather type from prompt
-    if "rain" in prompt_lower or "drizzle" in prompt_lower:
+    if any(word in prompt_lower for word in ["rain", "drizzle", "wet", "shower"]):
         category = "rainy"
-    elif "sun" in prompt_lower or "clear" in prompt_lower or "bright" in prompt_lower:
+    elif any(word in prompt_lower for word in ["sun", "sunny", "bright", "clear", "warm", "summer"]):
         category = "sunny"
-    elif "cloud" in prompt_lower or "overcast" in prompt_lower:
+    elif any(word in prompt_lower for word in ["cloud", "overcast", "gray", "grey", "fog", "mist"]):
         category = "cloudy"
-    elif "storm" in prompt_lower or "thunder" in prompt_lower:
+    elif any(word in prompt_lower for word in ["storm", "thunder", "lightning", "windy", "hurricane"]):
         category = "stormy"
-    elif "snow" in prompt_lower or "winter" in prompt_lower:
+    elif any(word in prompt_lower for word in ["snow", "winter", "cold", "ice", "blizzard", "frost"]):
         category = "snowy"
     else:
         category = "default"
+
     
     # Get random track from category
     tracks = FALLBACK_MUSIC.get(category, FALLBACK_MUSIC["default"])
