@@ -19,6 +19,7 @@ Built with **Next.js (Frontend)** + **FastAPI (Backend)** + **Google Gemini AI**
 - 🎨 [shadcn/ui](https://ui.shadcn.com/) for modern UI components
 - 💬 Server Actions for seamless API calls
 - 🎧 Audio playback + responsive design
+- 🛠️ Hosted on **Vercel**
 
 ### **Backend**
 - 🧠 [FastAPI](https://fastapi.tiangolo.com/) with async architecture
