@@ -62,15 +62,15 @@ def _get_fallback_music(prompt: str) -> MusicResult:
     prompt_lower = prompt.lower()
     
     # Determine weather type from prompt
-    if any(word in prompt_lower for word in ["rain", "drizzle", "wet", "shower"]):
+    if any(word in prompt_lower for word in ["rain", "drizzle", "wet", "shower", "lo-fi", "mellow", "downtempo", "ambient atmospheric"]):
         category = "rainy"
-    elif any(word in prompt_lower for word in ["sun", "sunny", "bright", "clear", "warm", "summer"]):
+    elif any(word in prompt_lower for word in ["sun", "sunny", "bright", "clear", "warm", "summer", "upbeat", "tropical", "cheerful", "indie pop", "folk acoustic"]):
         category = "sunny"
-    elif any(word in prompt_lower for word in ["cloud", "overcast", "gray", "grey", "fog", "mist"]):
+    elif any(word in prompt_lower for word in ["cloud", "overcast", "gray", "grey", "fog", "mist", "melancholic", "contemplative", "ambient electronic", "soft piano"]):
         category = "cloudy"
-    elif any(word in prompt_lower for word in ["storm", "thunder", "lightning", "windy", "hurricane"]):
+    elif any(word in prompt_lower for word in ["storm", "thunder", "lightning", "windy", "hurricane", "dramatic", "epic", "cinematic", "dark ambient", "tension"]):
         category = "stormy"
-    elif any(word in prompt_lower for word in ["snow", "winter", "cold", "ice", "blizzard", "frost"]):
+    elif any(word in prompt_lower for word in ["snow", "winter", "cold", "ice", "blizzard", "frost", "peaceful", "cozy", "minimal", "winter bells", "classical"]):
         category = "snowy"
     else:
         category = "default"
