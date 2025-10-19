@@ -19,10 +19,10 @@ class SoundResult(BaseModel):
 class MusicResult(BaseModel):
     id: str
     title: str
-    duration: int  # in milliseconds
+    duration: Optional[int] = None  # in milliseconds
     music_url: str
     waveform_url: Optional[str] = None
-    created_at: str
+    created_at: Optional[str] = None
     bpm: Optional[int] = None
     key: Optional[str] = None
 
