@@ -4,19 +4,17 @@ import SceneAgentCard from "@/components/home/cards/scene-agent-card";
 import ComingSoonCard from "@/components/home/cards/coming-soon-card";
 import Footer from "@/components/home/footer";
 import ResearchAgentCard from "@/components/home/cards/research-agent-card";
+import Card from "@/components/home/cards/card";
+import CardsList from "@/components/home/cards/cards-list";
+import { cardsData } from "@/data/cards-data";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <Background />
+    <div className="relative min-h-screen overflow-hidden bg-slate-950">
       <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <div className="w-full max-w-6xl">
+        <div className="w-full max-w-[74rem]">
           <Header />
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <SceneAgentCard />
-            <ResearchAgentCard />
-            <ComingSoonCard />
-          </div>
+          <CardsList cards={cardsData} />
           <Footer />
         </div>
       </main>
