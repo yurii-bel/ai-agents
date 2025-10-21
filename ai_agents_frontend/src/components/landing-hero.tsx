@@ -12,16 +12,6 @@ export default function LadningHero() {
         title2="Digital Vision"
         description="Choose an agent to generate immersive experiences powered by AI"
       />
-      {/* <h1
-        className={cn(
-          "relative z-20 text-6xl md:text-7xl pb-4 font-bold text-slate-200 mb-6"
-        )}
-      >
-        AI Agents Hub
-      </h1>
-      <p className="text-xl text-center mt-2 text-neutral-300 relative z-20">
-        Choose an agent to generate immersive experiences powered by AI
-      </p> */}
     </div>
   );
 }
