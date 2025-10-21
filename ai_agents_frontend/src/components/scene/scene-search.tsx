@@ -1,7 +1,8 @@
-import { Cloud, Loader2, Search } from "lucide-react";
+import { Cloud, Loader2, Search, MapPin } from "lucide-react";
 import { FormEvent, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import HText from "../h-text";
 
 const SceneSearch = ({
   onSearch,
@@ -27,46 +28,56 @@ const SceneSearch = ({
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-2xl">
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-6">
-            <Cloud className="w-12 h-12 text-blue-400 mr-3" />
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Scene Generator
+    <div className="min-h-screen w-full flex flex-col items-center justify-center px-4 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      <div className="w-full max-w-4xl mb-12">
+        <div className="text-center space-y-6">
+          <div className="flex justify-center items-center gap-3">
+            <Cloud className="w-16 h-16 text-slate-400" />
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-900">
+              <HText text="Scene Generator" />
             </h1>
           </div>
-          <p className="text-xl text-slate-300 max-w-md mx-auto leading-relaxed">
-            Enter a location to generate an immersive atmospheric experience.
+
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Enter a location to generate an immersive atmospheric experience
+            with realistic weather and ambiance
           </p>
         </div>
+      </div>
 
-        <form ref={formRef} onSubmit={handleSubmit} className="mb-8">
+      <div className="w-full max-w-3xl space-y-8">
+        <form ref={formRef} onSubmit={handleSubmit}>
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-xl blur opacity-75"></div>
-            <div className="relative bg-slate-900 rounded-xl p-1">
-              <div className="flex items-center gap-2 px-1">
-                <Input
-                  type="text"
-                  placeholder="Try: New York, Paris, Rome, Kyiv..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="bg-slate-800 border-0 text-white placeholder:text-slate-400 focus:ring-0 text-lg py-6 px-6 flex-1"
-                  disabled={loading}
-                />
+            <div className="bg-slate-900 rounded-2xl p-2 border border-slate-800">
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                  <Input
+                    type="text"
+                    placeholder="Enter a city or location..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    className="bg-slate-800/50 border-none focus-visible:ring-2 focus-visible:ring-blue-500/50 text-white placeholder:text-slate-500 text-lg py-7 pl-12 pr-6 rounded-xl"
+                    disabled={loading}
+                  />
+                </div>
                 <Button
                   type="submit"
-                  disabled={loading}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:cursor-pointer hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 flex items-center gap-2 m-1"
+                  disabled={loading || !query.trim()}
+                  className="bg-slate-600 hover:bg-slate-500 disabled:bg-slate-700 text-white font-semibold px-8 py-7 rounded-xl transition-all duration-200 flex items-center gap-2 hover:cursor-pointer"
                 >
                   {loading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span className="hidden sm:inline">Generating...</span>
+                    </>
                   ) : (
-                    <Search className="w-5 h-5" />
+                    <>
+                      <Search className="w-5 h-5" />
+                      <span className="hidden sm:inline">Generate Scene</span>
+                      <span className="sm:hidden">Go</span>
+                    </>
                   )}
-                  <span className="hidden sm:inline">
-                    {loading ? "Generating..." : "Generate"}
-                  </span>
                 </Button>
               </div>
             </div>
@@ -74,27 +85,39 @@ const SceneSearch = ({
         </form>
 
         {error && (
-          <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-8">
-            <p className="text-red-200">{error}</p>
+          <div className="bg-red-950/50 border border-red-500/30 rounded-xl p-4">
+            <p className="text-red-300 text-center">{error}</p>
           </div>
         )}
 
-        <div className="mt-12">
-          <p className="text-slate-400 text-sm mb-4 text-center">
-            Featured locations
-          </p>
+        <div className="space-y-4">
+          <div className="flex items-center justify-center gap-2">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
+            <p className="text-slate-400 text-sm font-medium tracking-wide uppercase">
+              Popular Destinations
+            </p>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
+          </div>
+
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {["New York", "Paris", "Rome", "Kyiv"].map((city) => (
               <button
                 key={city}
                 onClick={() => handleFeaturedClick(city)}
-                className="px-4 py-3 rounded-lg bg-slate-800/50 hover:cursor-pointer hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all duration-200 text-sm font-medium"
+                disabled={loading}
+                className="group relative px-5 py-4 rounded-xl bg-slate-800/50 hover:scale-105 active:scale-95 border border-slate-700/50 hover:border-slate-600 hover:cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {city}
+                <span className="text-slate-300 group-hover:text-white font-medium transition-colors">
+                  {city}
+                </span>
               </button>
             ))}
           </div>
         </div>
+
+        <p className="text-center text-slate-500 text-sm">
+          Try cities, landmarks, or any location worldwide
+        </p>
       </div>
     </div>
   );
