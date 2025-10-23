@@ -33,8 +33,12 @@ const SceneSearch = ({
         <div className="text-center space-y-4 sm:space-y-6">
           <div className="flex justify-center items-center gap-2 sm:gap-3">
             <Cloud className="w-10 h-10 sm:w-16 sm:h-16 text-slate-400" />
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-slate-900">
-              <HText text="Scene Generator" />
+            {/* Simple text on mobile, HText on desktop */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
+              <span className="sm:hidden text-slate-200">Scene Generator</span>
+              <span className="hidden sm:block text-slate-900">
+                <HText text="Scene Generator" />
+              </span>
             </h1>
           </div>
 
