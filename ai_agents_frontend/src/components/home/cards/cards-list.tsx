@@ -21,7 +21,7 @@ interface CardsListProps {
 
 export default function CardsList({ cards }: CardsListProps) {
   return (
-    <div className="grid md:grid-cols-2 gap-8 max-w-full mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-full mx-auto px-4 sm:px-0">
       {cards.map((card) => (
         <Card
           key={card.id}

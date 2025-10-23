@@ -38,13 +38,14 @@ export default function SceneMain() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950">
       <div className="relative z-10">
-        <div className="absolute top-6 left-6">
+        <div className="absolute top-3 left-3 sm:top-6 sm:left-6 z-20">
           <Link
             href="/"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all duration-200 text-sm font-medium"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-all duration-200 text-xs sm:text-sm font-medium"
           >
-            <ArrowBigLeft className="w-4 h-4" />
-            Back to Hub
+            <ArrowBigLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden xs:inline">Back to Hub</span>
+            <span className="xs:hidden">Back</span>
           </Link>
         </div>
         {!scene ? (
